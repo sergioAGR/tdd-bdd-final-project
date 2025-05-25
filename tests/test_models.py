@@ -104,3 +104,57 @@ class TestProductModel(unittest.TestCase):
     #
     # ADD YOUR TEST CASES HERE
     #
+    def test_read_product(self):
+        """ It should read a product"""
+        product = ProductFactory
+         # Set the ID of the product object to None 
+         #and then call the create() method on the product.
+        product.id = None
+        product.create()
+        # Assert that it was assigned an id and shows up in the database
+        self.assertIsNotNone(product.id)
+        # Fetch the product back from the system using the product ID and store it in found_product
+        found_product = Product.find(product.id)
+        # Assert that the properties of the found_product match with the properties of the original product object, such as id, name, description and price.
+        self.assertEqual(found_product.id, product.id)
+        self.assertEqual(found_product.name, product.name)
+        self.assertEqual(found_product.description, product.description)
+        self.assertEqual(found_product.price, product.price)
+
+    def test_update_product(self):
+        """ It should update a product"""
+        product = ProductFactory
+         # Set the ID of the product object to None 
+         #and then call the create() method on the product.
+        product.id = None
+        product.create()
+        # Assert that the ID of the product object is not None after calling the create() method.
+        self.assertIsNotNone(product.id)
+        # Update the product in the system with the new property values using the update() method.
+        product.description = "testing"
+        original_id = product.id
+        product.update()
+        # Assert that the id is same as the original id but description property of the product object has been updated correctly after calling the update() method.
+        self.assertEqual(original_id, product.id)
+        self.assertEqual(product.description, "testing")
+        # Fetch all the product back from the system.
+        products = Product.all()
+        # Assert the length of the products list is equal to 1 to verify that after updating the product, there is only one product in the system.
+        self.assertEqual(len(products), 1)
+        # Assert that the fetched product has id same as the original id.
+        self.assertEqual(products[0].id, original_id)
+        # Assert that the fetched product has the updated description
+        self.assertEqual(products[0].description, "testing")
+    
+    def test_delete_a_product(self):
+        """It should Delete a Product"""
+        product = ProductFactory()
+        product.id = None
+        # Call the create() method on the product to save it to the database.
+        product.create()
+        # Assert  if the length of the list returned by Product.all() is equal to 1, to verify that after creating a product and saving it to the database, there is only one product in the system.
+        self.assertEqual(len(Product.all()), 1)
+        # Call the delete() method on the product object, to remove the product from the database.
+        product.delete()
+        # Assert if the length of the list returned by Product.all() is now equal to 0, indicating that the product has been successfully deleted from the database.
+        self.assertEqual(len(Product.all()), 0)
