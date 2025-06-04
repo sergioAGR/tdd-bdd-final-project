@@ -106,7 +106,7 @@ class TestProductModel(unittest.TestCase):
     #
     def test_read_product(self):
         """ It should read a product"""
-        product = ProductFactory
+        product = ProductFactory()
          # Set the ID of the product object to None 
          #and then call the create() method on the product.
         product.id = None
@@ -123,7 +123,7 @@ class TestProductModel(unittest.TestCase):
 
     def test_update_product(self):
         """ It should update a product"""
-        product = ProductFactory
+        product = ProductFactory()
          # Set the ID of the product object to None 
          #and then call the create() method on the product.
         product.id = None
@@ -183,7 +183,7 @@ class TestProductModel(unittest.TestCase):
         name = products[0].name
         # Use a list comprehension to filter the products based on their name and then use len() to calculate the length of the filtered list, and use the variable called count to hold the number of products that match the name.
         #list comprehension expression  for item in iterable if condition -> regresa una lista 
-        count = len(product for product in products if product.name == name)
+        count = len([product for product in products if product.name == name])
         # Call the find_by_name() method on the Product class to retrieve products from the database that have the specified name.
         found = Product.find_by_name(name)
         # Assert if the count of the found products matches the expected count.
